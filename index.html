@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A private, browser-local STL model viewer and ruler." />
+  <title>Model Previewer</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Model Previewer home"><span class="brand-mark" aria-hidden="true">△</span><span>Model Previewer</span></a>
+      <p class="privacy-note"><span class="privacy-dot" aria-hidden="true"></span>Browser-local. Your model never leaves this device.</p>
+    </header>
+
+    <section class="workspace" aria-label="STL model viewer">
+      <aside class="sidebar">
+        <section class="panel upload-panel" aria-labelledby="upload-title">
+          <div class="eyebrow">MODEL</div>
+          <h1 id="upload-title">Inspect before you print.</h1>
+          <p class="muted">Open an STL, inspect its scale, and measure directly on the surface.</p>
+          <label id="drop-zone" class="drop-zone" for="file-input">
+            <span class="upload-glyph" aria-hidden="true">↑</span>
+            <strong>Drop an STL here</strong>
+            <span>or choose a file</span>
+            <input id="file-input" type="file" accept=".stl,model/stl,application/sla" />
+          </label>
+          <p id="file-status" class="file-status" role="status">No model loaded</p>
+        </section>
+
+        <section class="panel stats-panel" aria-labelledby="stats-title">
+          <div class="panel-title-row"><h2 id="stats-title">Model data</h2><span class="unit-chip">mm</span></div>
+          <dl class="stats-grid">
+            <div><dt>Width</dt><dd id="dimension-x">—</dd></div>
+            <div><dt>Depth</dt><dd id="dimension-y">—</dd></div>
+            <div><dt>Height</dt><dd id="dimension-z">—</dd></div>
+            <div><dt>Triangles</dt><dd id="triangle-count">—</dd></div>
+            <div><dt>Vertices</dt><dd id="vertex-count">—</dd></div>
+            <div><dt>File size</dt><dd id="file-size">—</dd></div>
+          </dl>
+          <p class="fine-print">STL has no unit metadata. Measurements are displayed as millimetres by convention.</p>
+        </section>
+
+        <section class="panel controls-panel" aria-labelledby="view-title">
+          <h2 id="view-title">View</h2>
+          <div class="control-grid">
+            <button id="fit-view" type="button" class="control-button">Fit model</button>
+            <button id="toggle-grid" type="button" class="control-button is-active" aria-pressed="true">Grid</button>
+            <button id="toggle-wireframe" type="button" class="control-button" aria-pressed="false">Wireframe</button>
+            <button id="reset-view" type="button" class="control-button">Home view</button>
+          </div>
+        </section>
+
+        <section class="panel measure-panel" aria-labelledby="measure-title">
+          <div class="panel-title-row"><h2 id="measure-title">Ruler</h2><span id="measure-state" class="state-badge">OFF</span></div>
+          <p id="measure-help" class="muted">Load a model to begin measuring.</p>
+          <div class="control-grid measure-actions">
+            <button id="measure-toggle" type="button" class="control-button control-button--accent" disabled aria-pressed="false">Measure distance</button>
+            <button id="clear-measures" type="button" class="control-button" disabled>Clear rulers</button>
+          </div>
+          <output id="measurement-readout" class="measurement-readout">—</output>
+        </section>
+      </aside>
+
+      <section id="viewer" class="viewer" aria-label="Interactive 3D viewer" tabindex="0">
+        <canvas id="model-canvas"></canvas>
+        <div id="empty-state" class="empty-state">
+          <div class="empty-symbol" aria-hidden="true">△</div>
+          <strong>Ready for an STL model</strong>
+          <span>Drag one into the chamber, then orbit, zoom, and measure it.</span>
+        </div>
+        <div class="viewer-hud"><span id="hud-label">NO MODEL</span><span>Drag to orbit · Scroll to zoom</span></div>
+        <div class="axis-key" aria-label="Axis colours"><span><i class="axis-x"></i>X</span><span><i class="axis-y"></i>Y</span><span><i class="axis-z"></i>Z</span></div>
+      </section>
+    </section>
+  </main>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
